@@ -2,8 +2,17 @@
   "name": "dmytr1k-gendiff",
   "version": "0.0.1",
   "description": "The utility to compares two configuration files and shows a difference",
-  "type": "module",
+  "keywords": [
+    "configuration",
+    "differences"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
   "main": "index.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,14 +20,11 @@
     "type": "git",
     "url": "git+https://github.com/Dmytr1K/frontend-project-lvl2.git"
   },
-  "keywords": [
-    "configuration",
-    "differences"
-  ],
   "author": "Dmytro Korzhov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Dmytr1K/frontend-project-lvl2/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/Dmytr1K/frontend-project-lvl2#readme"
 }
