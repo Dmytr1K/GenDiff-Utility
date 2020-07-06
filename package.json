@@ -26,5 +26,10 @@
     "url": "https://github.com/Dmytr1K/frontend-project-lvl2/issues"
   },
   "type": "module",
-  "homepage": "https://github.com/Dmytr1K/frontend-project-lvl2#readme"
+  "homepage": "https://github.com/Dmytr1K/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
 }
