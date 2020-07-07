@@ -10,5 +10,8 @@ export default () => {
     .version(version)
     .description(description);
 
+  program
+    .option('-f, --format [type]', 'output format');
+
   program.parse(process.argv);
 };
