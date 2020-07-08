@@ -11,6 +11,7 @@ export default () => {
     .description(description);
 
   program
+    .arguments('<filepath1> <filepath2>')
     .option('-f, --format [type]', 'output format');
 
   program.parse(process.argv);
