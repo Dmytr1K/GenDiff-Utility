@@ -31,7 +31,7 @@ const getDiff = (config1, config2) => {
   const result = unionKeys.reduce(addData, []);
   const formatResult = `{${result.join('')}\n}`;
 
-  console.log(formatResult);
+  return formatResult;
 };
 
 export default getDiff;
