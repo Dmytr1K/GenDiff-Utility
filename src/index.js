@@ -3,9 +3,8 @@ import program from 'commander';
 import getDiff from './getDiff.js';
 
 export default () => {
-  const packageJson = fs.readFileSync('./package.json');
-  const version = JSON.parse(packageJson).version || 0;
-  const description = JSON.parse(packageJson).description || '';
+  const version = '0.0.1';
+  const description = 'Compares two configuration files and shows a difference.';
 
   program
     .version(version)
