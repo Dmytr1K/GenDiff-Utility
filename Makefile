@@ -14,4 +14,4 @@ link:
 	npm link
 
 start:
-	bin/gendiff.js
+	bin/gendiff.js --help
