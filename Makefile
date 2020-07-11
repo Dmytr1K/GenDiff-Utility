@@ -13,5 +13,8 @@ install:
 link:
 	npm link
 
+unlink:
+	npm unlink
+
 start:
 	bin/gendiff.js --help
