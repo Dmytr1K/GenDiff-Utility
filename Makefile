@@ -16,5 +16,5 @@ link:
 unlink:
 	npm unlink
 
-start:
+help:
 	bin/gendiff.js --help
