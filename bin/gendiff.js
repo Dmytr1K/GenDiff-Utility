@@ -2,7 +2,9 @@
 
 import program from 'commander';
 import genDiff from '../index.js';
-import { version, description } from '../src/getPackageData.js';
+
+const version = '0.0.1';
+const description = 'Compares two configuration files and shows a difference.';
 
 program
   .version(version)
