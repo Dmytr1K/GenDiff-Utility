@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
+import { createRequire } from 'module';
 import program from 'commander';
 import genDiff from '../index.js';
 
-const version = '0.0.1';
-const description = 'Compares two configuration files and shows a difference.';
+const packageConfig = createRequire(import.meta.url)('../package.json');
+const { version, description } = packageConfig;
 
 program
   .version(version)
