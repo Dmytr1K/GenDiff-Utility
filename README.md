@@ -1,5 +1,9 @@
 # Вычислитель отличий
 
+[![Node CI](https://github.com/Dmytr1K/frontend-project-lvl2/workflows/Node%20CI/badge.svg)](https://github.com/Dmytr1K/frontend-project-lvl2/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/12f5f8da35f09a7cda82/maintainability)](https://codeclimate.com/github/Dmytr1K/frontend-project-lvl2/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/12f5f8da35f09a7cda82/test_coverage)](https://codeclimate.com/github/Dmytr1K/frontend-project-lvl2/test_coverage)
+
 Утилита для поиска отличий в конфигурационных файлах.
 
 ***
