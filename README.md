@@ -1,26 +1,32 @@
-# Проект: Вычислитель отличий
+# Вычислитель отличий
 
-Утилита для поиска отличий в конфигурационных файлах
+Утилита для поиска отличий в конфигурационных файлах.
+
+***
+
+Второй из четырёх учебных проектов программы обучения [*Фронтенд JavaScript*](https://ru.hexlet.io/professions/frontend) на образовательной онлайн-платформе [**Хекслет**](https://ru.hexlet.io/pages/about).
+
+***
 
 ## Установка и удаление
 
 ### Используя npm
 
-- Установить
+- Установить:
 
 ```sh
-npm install -g dmytr1k-gendiff
+npm install dmytr1k-gendiff
 ```
 
-- Удалить
+- Удалить:
 
 ```sh
-npm uninstall -g dmytr1k-gendiff
+npm uninstall dmytr1k-gendiff
 ```
 
 ### Используя git
 
-- Установить
+- Установить:
 
 ```sh
 git clone git@github.com:Dmytr1K/frontend-project-lvl2.git
@@ -29,7 +35,7 @@ make install
 make link
 ```
 
-- Удалить
+- Удалить:
 
 ```sh
 cd frontend-project-lvl2
@@ -40,17 +46,19 @@ rm -R frontend-project-lvl2
 
 ## Встроенная справка
 
-- Получить подсказку по работе с программой
+- Получить подсказку по работе с программой:
 
 ```sh
 gendiff -h
 ```
 
-- Узнать версию
+- Узнать версию:
 
 ```sh
 gendiff -V
 ```
+
+Пример работы со встроенной справкой:
 
 [![asciicast](https://asciinema.org/a/346866.svg)](https://asciinema.org/a/346866)
 
@@ -58,10 +66,10 @@ gendiff -V
 
 ### Сравнение плоских файлов (JSON)
 
-- Пример работы с относительными путями до файлов
+Пример работы с относительными путями до файлов:
 
 [![asciicast](https://asciinema.org/a/346867.svg)](https://asciinema.org/a/346867)
 
-- Пример работы с относительным и абсолютным путями до файлов
+Пример работы с относительным и абсолютным путями до файлов:
 
 [![asciicast](https://asciinema.org/a/346868.svg)](https://asciinema.org/a/346868)
