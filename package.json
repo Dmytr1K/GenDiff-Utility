@@ -9,6 +9,7 @@
   "engines": {
     "node": ">=14"
   },
+  "type": "module",
   "main": "index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
@@ -25,15 +26,14 @@
   "bugs": {
     "url": "https://github.com/Dmytr1K/frontend-project-lvl2/issues"
   },
-  "type": "module",
   "homepage": "https://github.com/Dmytr1K/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "lodash": "^4.17.15"
+  },
   "devDependencies": {
     "eslint": "^7.4.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0"
-  },
-  "dependencies": {
-    "commander": "^5.1.0",
-    "lodash": "^4.17.15"
   }
 }
