@@ -1,9 +1,13 @@
 ---
+plugins:
+  - jest # https://github.com/jest-community/eslint-plugin-jest
+
 env:
   node: true
 
 extends:
   - 'airbnb-base'
+  - 'plugin:jest/recommended'
 
 rules:
   no-console: 0
