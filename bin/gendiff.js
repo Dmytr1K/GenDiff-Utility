@@ -4,7 +4,12 @@ import { createRequire } from 'module';
 import program from 'commander';
 import genDiff from '../index.js';
 
-const packageConfig = createRequire(import.meta.url)('../package.json');
+// Create equivalent of require function to import JSON
+// https://medium.com/@nodejs/announcing-core-node-js-support-for-ecmascript-modules-c5d6dc29b663
+// https://nodejs.org/api/modules.html#modules_module_createrequire_filename
+const require = createRequire(import.meta.url);
+const packageConfig = require('../package.json');
+
 const { version, description } = packageConfig;
 
 program
