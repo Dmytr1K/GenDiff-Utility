@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
 
-test('genDiff', async () => {
+test('genDiff with flat JSON', async () => {
   const pathBefore = await getFixturePath('before.json');
   const pathAfter = await getFixturePath('after.json');
   const result = await readFile('result.txt');
