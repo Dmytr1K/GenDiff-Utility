@@ -20,3 +20,11 @@ test('genDiff with flat JSON', async () => {
   const diff = genDiff(pathBefore, pathAfter);
   expect(diff).toEqual(result);
 });
+
+test('genDiff with flat YAML', async () => {
+  const pathBefore = await getFixturePath('before.yml');
+  const pathAfter = await getFixturePath('after.yml');
+  const result = await readFile('result.txt');
+  const diff = genDiff(pathBefore, pathAfter);
+  expect(diff).toEqual(result);
+});
