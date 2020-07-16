@@ -2,15 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 
-// eslint-disable-next-line consistent-return
-export default (filepath) => {
-  const format = path.extname(filepath);
-  const content = fs.readFileSync(filepath, 'utf-8');
+const parsers = {
+  '.json': JSON.parse,
+  '.yml': yaml.safeLoad,
+};
 
-  if (format === '.json') {
-    return JSON.parse(content);
-  }
-  if (format === '.yml') {
-    return yaml.safeLoad(content);
-  }
+export default (filepath) => {
+  const content = fs.readFileSync(filepath, 'utf-8');
+  const format = path.extname(filepath);
+  const parse = parsers[format];
+
+  return parse(content);
 };
