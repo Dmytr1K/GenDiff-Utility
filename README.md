@@ -64,16 +64,16 @@ gendiff -V
 
 Пример работы со встроенной справкой:
 
-[![asciicast](https://asciinema.org/a/346866.svg)](https://asciinema.org/a/346866)
+[![asciicast](https://asciinema.org/a/348193.svg)](https://asciinema.org/a/348193)
 
 ## Работа с программой
 
-### Сравнение плоских файлов (JSON)
+### Сравнение плоских файлов
 
-Пример работы с относительными путями до файлов:
+#### JSON
 
-[![asciicast](https://asciinema.org/a/346867.svg)](https://asciinema.org/a/346867)
+[![asciicast](https://asciinema.org/a/348188.svg)](https://asciinema.org/a/348188)
 
-Пример работы с относительным и абсолютным путями до файлов:
+#### YAML
 
-[![asciicast](https://asciinema.org/a/346868.svg)](https://asciinema.org/a/346868)
+[![asciicast](https://asciinema.org/a/348189.svg)](https://asciinema.org/a/348189)
