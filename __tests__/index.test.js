@@ -28,3 +28,11 @@ test('genDiff with flat YAML', async () => {
   const diff = genDiff(pathBefore, pathAfter);
   expect(diff).toEqual(result);
 });
+
+test('genDiff with flat INI', async () => {
+  const pathBefore = await getFixturePath('before.ini');
+  const pathAfter = await getFixturePath('after.ini');
+  const result = await readFile('result.txt');
+  const diff = genDiff(pathBefore, pathAfter);
+  expect(diff).toEqual(result);
+});
