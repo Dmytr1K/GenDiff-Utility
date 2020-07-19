@@ -10,29 +10,17 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
+const exts = ['json', 'yml', 'ini'];
+const fixturesDirPath = [__dirname, '..', '__fixtures__'];
 
-test('genDiff with flat JSON', async () => {
-  const pathBefore = await getFixturePath('before.json');
-  const pathAfter = await getFixturePath('after.json');
-  const result = await readFile('result.txt');
-  const diff = genDiff(pathBefore, pathAfter);
-  expect(diff).toEqual(result);
-});
+const getFullPath = (dirpath, filename, ext) => path.join(...dirpath, `${filename}.${ext}`);
+const getFixturePath = (filename, ext) => getFullPath(fixturesDirPath, filename, ext);
 
-test('genDiff with flat YAML', async () => {
-  const pathBefore = await getFixturePath('before.yml');
-  const pathAfter = await getFixturePath('after.yml');
-  const result = await readFile('result.txt');
-  const diff = genDiff(pathBefore, pathAfter);
-  expect(diff).toEqual(result);
-});
+test.each(exts)('genDiff with flat %s', (ext) => {
+  const before = getFixturePath('before', ext);
+  const after = getFixturePath('after', ext);
+  const result = fs.readFileSync(getFixturePath('result', 'txt'), 'utf8');
 
-test('genDiff with flat INI', async () => {
-  const pathBefore = await getFixturePath('before.ini');
-  const pathAfter = await getFixturePath('after.ini');
-  const result = await readFile('result.txt');
-  const diff = genDiff(pathBefore, pathAfter);
+  const diff = genDiff(before, after);
   expect(diff).toEqual(result);
 });
