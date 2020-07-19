@@ -77,3 +77,7 @@ gendiff -V
 #### YAML
 
 [![asciicast](https://asciinema.org/a/348189.svg)](https://asciinema.org/a/348189)
+
+#### INI
+
+[![asciicast](https://asciinema.org/a/348386.svg)](https://asciinema.org/a/348386)
