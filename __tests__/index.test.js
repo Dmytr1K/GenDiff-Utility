@@ -10,17 +10,25 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const exts = ['json', 'yml', 'ini'];
-const fixturesDirPath = [__dirname, '..', '__fixtures__'];
+const structureTypes = ['flat'];
+const extensions = ['json', 'yml', 'ini'];
+const testMatrix = structureTypes.flatMap((type) => extensions.map((ext) => [type, ext]));
 
 const getFullPath = (dirpath, filename, ext) => path.join(...dirpath, `${filename}.${ext}`);
-const getFixturePath = (filename, ext) => getFullPath(fixturesDirPath, filename, ext);
+const getFixtureFullPath = (subdirs, filename, ext) => {
+  const fixturesPath = [...[__dirname, '..', '__fixtures__'], ...subdirs];
+  return getFullPath(fixturesPath, filename, ext);
+};
 
-test.each(exts)('genDiff with flat %s', (ext) => {
-  const before = getFixturePath('before', ext);
-  const after = getFixturePath('after', ext);
-  const result = fs.readFileSync(getFixturePath('result', 'txt'), 'utf8');
+test.each(testMatrix)(
+  'genDiff with %s %s',
+  (type, ext) => {
+    const pathBefore = getFixtureFullPath([type, ext], 'before', ext);
+    const pathAfter = getFixtureFullPath([type, ext], 'after', ext);
+    const pathResult = getFixtureFullPath([type], 'result', 'txt');
 
-  const diff = genDiff(before, after);
-  expect(diff).toEqual(result);
-});
+    const diff = genDiff(pathBefore, pathAfter);
+    const result = fs.readFileSync(pathResult, 'utf8');
+    expect(diff).toEqual(result);
+  },
+);
