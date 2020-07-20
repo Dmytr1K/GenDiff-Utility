@@ -10,7 +10,7 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const structureTypes = ['flat'];
+const structureTypes = ['flat', 'nested'];
 const extensions = ['json', 'yml', 'ini'];
 const testMatrix = structureTypes.flatMap((type) => extensions.map((ext) => [type, ext]));
 
