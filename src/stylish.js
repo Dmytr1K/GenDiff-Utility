@@ -11,7 +11,6 @@ const getDiffType = (valuesPair) => {
   if (valueBefore !== valueAfter) {
     return 'changed';
   }
-
   return 'unchanged';
 };
 
@@ -25,24 +24,21 @@ const getIndent = (depth, diffType = 'unchanged') => {
     deleted: '-',
   };
   const prefix = prefixes[diffType];
-
   return filler.repeat(indentSize * depth + prefixIndentSize) + prefix + filler;
 };
 
-const stringify = (object, depth) => {
-  if (!_.isObject(object)) return object;
-  const [key, value] = Object.entries(object).flat();
+const stringify = (data, depth) => {
+  if (!_.isObject(data)) return data;
   const openingIndent = getIndent(depth);
   const closingIndent = getIndent(depth - 1);
-
+  const [key, value] = Object.entries(data).flat();
   return `{\n${openingIndent}${key}: ${value}\n${closingIndent}}`;
 };
 
-const getFullString = (diffType, depth, name, values) => {
-  const [valueBefore, valueAfter] = values;
+const getString = (diffType, depth, name, valuesPair) => {
   const indent = getIndent(depth, diffType);
+  const [valueBefore, valueAfter] = valuesPair;
   const value = diffType === 'deleted' ? valueBefore : valueAfter;
-
   return `${indent}${name}: ${stringify(value, depth + 1)}`;
 };
 
@@ -52,19 +48,17 @@ const format = (diff) => {
 
     if (objectsDifference) {
       const indent = getIndent(depth);
-
       return `${indent}${name}: {\n${_.sortBy(objectsDifference, ['name']).flatMap((item) => iter(item, depth + 1)).join('\n')}\n${indent}}`;
     }
 
     const diffType = getDiffType(valuesPair);
     if (diffType === 'changed') {
-      const stringAfter = getFullString('added', depth, name, valuesPair);
-      const stringBefore = getFullString('deleted', depth, name, valuesPair);
-
+      const stringBefore = getString('deleted', depth, name, valuesPair);
+      const stringAfter = getString('added', depth, name, valuesPair);
       return [stringBefore, stringAfter];
     }
 
-    return getFullString(diffType, depth, name, valuesPair);
+    return getString(diffType, depth, name, valuesPair);
   };
 
   return `{\n${_.sortBy(diff, ['name']).flatMap((node) => iter(node, 0)).join('\n')}\n}`;
