@@ -64,20 +64,26 @@ gendiff -V
 
 Пример работы со встроенной справкой:
 
-[![asciicast](https://asciinema.org/a/348193.svg)](https://asciinema.org/a/348193)
+[![asciicast](https://asciinema.org/a/349597.svg)](https://asciinema.org/a/349597)
 
 ## Работа с программой
 
 ### Сравнение плоских файлов
 
-#### JSON
+#### Flat JSON
 
-[![asciicast](https://asciinema.org/a/348188.svg)](https://asciinema.org/a/348188)
+[![asciicast](https://asciinema.org/a/349595.svg)](https://asciinema.org/a/349595)
 
-#### YAML
+#### Flat YAML и INI
 
-[![asciicast](https://asciinema.org/a/348189.svg)](https://asciinema.org/a/348189)
+Результат аналогичен сравнению JSON
 
-#### INI
+### Сравнение файлов, имеющих вложенные структуры
 
-[![asciicast](https://asciinema.org/a/348386.svg)](https://asciinema.org/a/348386)
+#### Nested JSON
+
+[![asciicast](https://asciinema.org/a/349594.svg)](https://asciinema.org/a/349594)
+
+#### Nested YAML и INI
+
+Результат аналогичен сравнению JSON
