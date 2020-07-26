@@ -1,6 +1,6 @@
 import parse from './parsers.js';
 import buildDiff from './buildDiff.js';
-import format from './formatters';
+import format from './formatters/index.js';
 
 export default (filepath1, filepath2, formatType = 'stylish') => {
   const contentBefore = parse(filepath1);
