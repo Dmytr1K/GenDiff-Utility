@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import getDiffType from './getDiffType.js';
+import getDiffType from '../getDiffType.js';
 
 const getFullName = (path, name) => `${path ? `${path}.` : ''}${name}`;
 
