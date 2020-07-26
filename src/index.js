@@ -1,9 +1,11 @@
 import parse from './parsers.js';
 import buildDiff from './buildDiff.js';
 import stylish from './stylish.js';
+import plain from './plain.js';
 
 const formaters = {
   stylish,
+  plain,
 };
 
 export default (filepath1, filepath2, formatType = 'stylish') => {

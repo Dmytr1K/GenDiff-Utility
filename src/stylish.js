@@ -1,18 +1,5 @@
 import _ from 'lodash';
-
-const getDiffType = (valuesPair) => {
-  const [valueBefore, valueAfter] = valuesPair;
-  if (valueBefore === undefined) {
-    return 'added';
-  }
-  if (valueAfter === undefined) {
-    return 'deleted';
-  }
-  if (valueBefore !== valueAfter) {
-    return 'changed';
-  }
-  return 'unchanged';
-};
+import getDiffType from './getDiffType.js';
 
 const getIndent = (depth, diffType = 'unchanged') => {
   const filler = ' ';
