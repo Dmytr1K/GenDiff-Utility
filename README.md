@@ -70,9 +70,13 @@ gendiff -V
 
 ### Сравнение плоских файлов
 
-#### Flat JSON
+#### Flat JSON with stylish output format
 
 [![asciicast](https://asciinema.org/a/349595.svg)](https://asciinema.org/a/349595)
+
+#### Flat JSON with plain output format
+
+[![asciicast](https://asciinema.org/a/349763.svg)](https://asciinema.org/a/349763)
 
 #### Flat YAML и INI
 
@@ -80,9 +84,13 @@ gendiff -V
 
 ### Сравнение файлов, имеющих вложенные структуры
 
-#### Nested JSON
+#### Nested JSON with stylish output format
 
 [![asciicast](https://asciinema.org/a/349594.svg)](https://asciinema.org/a/349594)
+
+#### Nested JSON with plain output format
+
+[![asciicast](https://asciinema.org/a/349762.svg)](https://asciinema.org/a/349762)
 
 #### Nested YAML и INI
 
