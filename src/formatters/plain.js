@@ -8,7 +8,7 @@ const getParsedValue = (value) => {
     return '[complex value]';
   }
   if (_.isString(value)) {
-    return _.toNumber(value) ? value : `'${value}'`;
+    return `'${value}'`;
   }
   return value;
 };
