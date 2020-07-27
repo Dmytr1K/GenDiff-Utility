@@ -64,7 +64,7 @@ gendiff -V
 
 Пример работы со встроенной справкой:
 
-[![asciicast](https://asciinema.org/a/349597.svg)](https://asciinema.org/a/349597)
+[![asciicast](https://asciinema.org/a/349958.svg)](https://asciinema.org/a/349958)
 
 ## Работа с программой
 
@@ -72,26 +72,34 @@ gendiff -V
 
 #### Flat JSON with stylish output format
 
-[![asciicast](https://asciinema.org/a/349595.svg)](https://asciinema.org/a/349595)
+[![asciicast](https://asciinema.org/a/349980.svg)](https://asciinema.org/a/349980)
 
 #### Flat JSON with plain output format
 
-[![asciicast](https://asciinema.org/a/349763.svg)](https://asciinema.org/a/349763)
+[![asciicast](https://asciinema.org/a/349978.svg)](https://asciinema.org/a/349978)
+
+#### Flat JSON with JSON output format
+
+[![asciicast](https://asciinema.org/a/349979.svg)](https://asciinema.org/a/349979)
 
 #### Flat YAML и INI
 
-Результат аналогичен сравнению JSON
+Результаты сравнения аналогичны результатам сравнения файлов формата JSON
 
 ### Сравнение файлов, имеющих вложенные структуры
 
 #### Nested JSON with stylish output format
 
-[![asciicast](https://asciinema.org/a/349594.svg)](https://asciinema.org/a/349594)
+[![asciicast](https://asciinema.org/a/349981.svg)](https://asciinema.org/a/349981)
 
 #### Nested JSON with plain output format
 
-[![asciicast](https://asciinema.org/a/349762.svg)](https://asciinema.org/a/349762)
+[![asciicast](https://asciinema.org/a/349982.svg)](https://asciinema.org/a/349982)
+
+#### Nested JSON with JSON output format
+
+[![asciicast](https://asciinema.org/a/349983.svg)](https://asciinema.org/a/349983)
 
 #### Nested YAML и INI
 
-Результат аналогичен сравнению JSON
+Результаты сравнения аналогичны результатам сравнения файлов формата JSON
