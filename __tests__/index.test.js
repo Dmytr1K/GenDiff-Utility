@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 
 const inputStructures = ['flat', 'nested'];
 const inputFormats = ['json', 'yml', 'ini'];
-const outputFormats = ['stylish', 'plain'];
+const outputFormats = ['stylish', 'plain', 'json'];
 const tests = inputStructures
   .flatMap((inputStructure) => inputFormats
     .flatMap((inputFormat) => outputFormats

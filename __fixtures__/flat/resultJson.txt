@@ -1,0 +1,1 @@
+[{"name":"host","valuesPair":["hexlet.io","hexlet.io"]},{"name":"timeout","valuesPair":[50,20]},{"name":"proxy","valuesPair":["123.234.53.22",null]},{"name":"follow","valuesPair":[false,null]},{"name":"verbose","valuesPair":[null,true]},{"name":"name","valuesPair":[null,"user"]}]
