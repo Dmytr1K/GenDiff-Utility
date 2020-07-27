@@ -18,7 +18,7 @@
     }
     group1: {
       - baz: bas
-      + baz: bars
+      + baz: 324
         foo: bar
       - nest: {
             key: value
