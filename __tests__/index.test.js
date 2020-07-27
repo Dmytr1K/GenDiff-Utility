@@ -19,25 +19,22 @@ const tests = inputStructures
     .flatMap((inputFormat) => outputFormats
       .map((outputFormat) => ([inputStructure, inputFormat, outputFormat]))));
 
-const getFullPath = (dirpath, filename, ext = 'txt') => path
-  .join(...dirpath, `${filename}.${ext}`);
+const getFixturePath = (dir, filename, ext = 'txt') => path
+  .join(__dirname, '..', '__fixtures__', dir, `${filename}.${ext}`);
 
-const getFixtureDirPath = (...dirs) => [...[__dirname, '..', '__fixtures__'], ...dirs];
-
-const getFixtureFullPath = (inputStructure, format, fixtureType) => {
+const getPath = (inputStructure, format, fixtureType) => {
   if (fixtureType === 'result') {
-    const filename = fixtureType + _.capitalize(format);
-    return getFullPath(getFixtureDirPath(inputStructure), filename);
+    return getFixturePath(inputStructure, fixtureType + _.capitalize(format));
   }
-  return getFullPath(getFixtureDirPath(inputStructure, format), fixtureType, format);
+  return getFixturePath(inputStructure, fixtureType, format);
 };
 
 test.each(tests)(
   'buildDiff with %s %s files and with %s output',
   (inputStructure, inputFormat, outputFormat) => {
-    const filepathBefore = getFixtureFullPath(inputStructure, inputFormat, 'before');
-    const filepathAfter = getFixtureFullPath(inputStructure, inputFormat, 'after');
-    const filepathResult = getFixtureFullPath(inputStructure, outputFormat, 'result');
+    const filepathBefore = getPath(inputStructure, inputFormat, 'before');
+    const filepathAfter = getPath(inputStructure, inputFormat, 'after');
+    const filepathResult = getPath(inputStructure, outputFormat, 'result');
 
     const diff = buildDiff(filepathBefore, filepathAfter, outputFormat);
     const result = fs.readFileSync(filepathResult, 'utf8');
