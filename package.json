@@ -10,7 +10,6 @@
     "node": ">=14"
   },
   "type": "module",
-  "main": "index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
