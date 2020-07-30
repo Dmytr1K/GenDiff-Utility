@@ -1,11 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import parse from './parsers.js';
 import buildDiff from './buildDiff.js';
 import format from './formatters/index.js';
-
-const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
-const getFileExtension = (filePath) => path.extname(filePath).substring(1);
+import { readFile, getFileExtension } from './utils.js';
 
 export default (filePathBefore, filePathAfter, outputFormatterType = 'stylish') => {
   const rawDataBefore = readFile(filePathBefore);

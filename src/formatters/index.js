@@ -1,6 +1,6 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
-import convert from '../convert.js';
+import { convert } from '../utils.js';
 
 const json = JSON.stringify;
 

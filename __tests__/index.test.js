@@ -1,17 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import _ from 'lodash';
 import genDiff from '../index.js';
+import { readFile } from '../src/utils.js';
 
 // Create equivalents of __filename and __dirname
 // https://nodejs.org/api/esm.html#esm_no_require_exports_module_exports_filename_dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
 const getTestsSet = (items1, items2) => items1.flatMap((item1) => items2
   .map((item2) => ([item1, item2])));

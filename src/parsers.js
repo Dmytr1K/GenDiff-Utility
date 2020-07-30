@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import convert from './convert.js';
+import { convert } from './utils.js';
 
 const parsers = {
   json: JSON.parse,

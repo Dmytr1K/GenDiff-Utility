@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import getDiffType from '../getDiffType.js';
+import { getDiffType } from '../utils.js';
 
 const getIndent = (depth, diffType = 'unchanged') => {
   const filler = ' ';
