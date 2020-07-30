@@ -4,37 +4,39 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import _ from 'lodash';
-import buildDiff from '../index.js';
+import genDiff from '../index.js';
 
 // Create equivalents of __filename and __dirname
 // https://nodejs.org/api/esm.html#esm_no_require_exports_module_exports_filename_dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const inputFormats = ['json', 'yml', 'ini'];
-const outputFormats = ['stylish', 'plain', 'json'];
-const tests = inputFormats.flatMap((inputFormat) => outputFormats
-  .map((outputFormat) => ([inputFormat, outputFormat])));
+const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
-const getFixturePath = (filename, ext = 'txt') => path
+const getTestsSet = (items1, items2) => items1.flatMap((item1) => items2
+  .map((item2) => ([item1, item2])));
+
+const getFixturePath = (filename, ext) => path
   .join(__dirname, '..', '__fixtures__', `${filename}.${ext}`);
 
-const getPath = (format, fixtureType) => {
-  if (fixtureType === 'result') {
-    return getFixturePath(fixtureType + _.capitalize(format));
-  }
-  return getFixturePath(fixtureType, format);
+const getExpectedResultData = (outputFormatterType) => {
+  const expectedResultFileName = `result${_.capitalize(outputFormatterType)}`;
+
+  return readFile(getFixturePath(expectedResultFileName, 'txt'));
 };
 
-test.each(tests)(
-  'buildDiff read %s files and generate %s format output',
-  (inputFormat, outputFormat) => {
-    const filepathBefore = getPath(inputFormat, 'before');
-    const filepathAfter = getPath(inputFormat, 'after');
-    const filepathResult = getPath(outputFormat, 'result');
+const inputDataTypes = ['json', 'yml', 'ini'];
+const outputFormatterTypes = ['stylish', 'plain', 'json'];
+const testsSet = getTestsSet(inputDataTypes, outputFormatterTypes);
 
-    const diff = buildDiff(filepathBefore, filepathAfter, outputFormat);
-    const result = fs.readFileSync(filepathResult, 'utf8');
-    expect(diff).toEqual(result);
+test.each(testsSet)(
+  'genDiff read %s files and generate %s format output',
+  (inputDataType, outputFormatterType) => {
+    const filepathBefore = getFixturePath('before', inputDataType);
+    const filepathAfter = getFixturePath('after', inputDataType);
+    const expectedResult = getExpectedResultData(outputFormatterType);
+
+    const currentResult = genDiff(filepathBefore, filepathAfter, outputFormatterType);
+    expect(currentResult).toEqual(expectedResult);
   },
 );

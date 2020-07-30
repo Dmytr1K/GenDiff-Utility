@@ -4,19 +4,19 @@ import parse from './parsers.js';
 import buildDiff from './buildDiff.js';
 import format from './formatters/index.js';
 
-const readData = (filepath) => fs.readFileSync(filepath, 'utf-8');
-const getParserType = (filepath) => path.extname(filepath).substring(1);
+const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
+const getFileExtension = (filePath) => path.extname(filePath).substring(1);
 
-export default (filepath1, filepath2, type = 'stylish') => {
-  const rawDataBefore = readData(filepath1);
-  const parserTypeBefore = getParserType(filepath1);
-  const dataBefore = parse(rawDataBefore, parserTypeBefore);
+export default (filePathBefore, filePathAfter, outputFormatterType = 'stylish') => {
+  const rawDataBefore = readFile(filePathBefore);
+  const dataParserTypeBefore = getFileExtension(filePathBefore);
+  const parsedDataBefore = parse(rawDataBefore, dataParserTypeBefore);
 
-  const rawDataAfter = readData(filepath2);
-  const parserTypeAfter = getParserType(filepath2);
-  const dataAfter = parse(rawDataAfter, parserTypeAfter);
+  const rawDataAfter = readFile(filePathAfter);
+  const dataParserTypeAfter = getFileExtension(filePathAfter);
+  const parsedDataAfter = parse(rawDataAfter, dataParserTypeAfter);
 
-  const diff = buildDiff(dataBefore, dataAfter);
+  const diffTree = buildDiff(parsedDataBefore, parsedDataAfter);
 
-  return format(diff, type);
+  return format(diffTree, outputFormatterType);
 };
