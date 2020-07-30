@@ -1,3 +1,1 @@
-import buildDiff from './src/index.js';
-
-export default buildDiff;
+export { default } from './src/index.js';
