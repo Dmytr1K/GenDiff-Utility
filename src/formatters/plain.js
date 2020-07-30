@@ -19,7 +19,7 @@ const format = (diff) => {
     const fullName = getFullName(path, name);
 
     if (objectsDifference) {
-      return _.sortBy(objectsDifference, ['name']).flatMap((item) => iter(item, fullName));
+      return objectsDifference.flatMap((item) => iter(item, fullName));
     }
 
     const [valueBefore, valueAfter] = valuesPair;
@@ -37,7 +37,7 @@ const format = (diff) => {
     return '';
   };
 
-  return _.sortBy(diff, ['name']).flatMap((node) => iter(node, '')).filter(String).join('\n');
+  return diff.flatMap((node) => iter(node, '')).filter(String).join('\n');
 };
 
 export default format;

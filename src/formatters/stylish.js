@@ -35,7 +35,7 @@ const format = (diff) => {
 
     if (objectsDifference) {
       const indent = getIndent(depth);
-      return `${indent}${name}: {\n${_.sortBy(objectsDifference, ['name']).flatMap((item) => iter(item, depth + 1)).join('\n')}\n${indent}}`;
+      return `${indent}${name}: {\n${objectsDifference.flatMap((item) => iter(item, depth + 1)).join('\n')}\n${indent}}`;
     }
 
     const diffType = getDiffType(valuesPair);
@@ -48,7 +48,7 @@ const format = (diff) => {
     return getString(diffType, depth, name, valuesPair);
   };
 
-  return `{\n${_.sortBy(diff, ['name']).flatMap((node) => iter(node, 0)).join('\n')}\n}`;
+  return `{\n${diff.flatMap((node) => iter(node, 0)).join('\n')}\n}`;
 };
 
 export default format;
