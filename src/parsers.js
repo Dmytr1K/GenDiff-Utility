@@ -10,9 +10,9 @@ const parsers = {
 };
 
 export default (filepath) => {
-  const content = fs.readFileSync(filepath, 'utf-8');
-  const parseType = path.extname(filepath).substring(1);
-  const parse = parsers[parseType];
+  const data = fs.readFileSync(filepath, 'utf-8');
+  const type = path.extname(filepath).substring(1);
+  const parse = parsers[type];
 
-  return parse(content);
+  return parse(data);
 };
