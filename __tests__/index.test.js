@@ -11,30 +11,27 @@ import buildDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const inputStructures = ['flat', 'nested'];
 const inputFormats = ['json', 'yml', 'ini'];
 const outputFormats = ['stylish', 'plain', 'json'];
-const tests = inputStructures
-  .flatMap((inputStructure) => inputFormats
-    .flatMap((inputFormat) => outputFormats
-      .map((outputFormat) => ([inputStructure, inputFormat, outputFormat]))));
+const tests = inputFormats.flatMap((inputFormat) => outputFormats
+  .map((outputFormat) => ([inputFormat, outputFormat])));
 
-const getFixturePath = (dir, filename, ext = 'txt') => path
-  .join(__dirname, '..', '__fixtures__', dir, `${filename}.${ext}`);
+const getFixturePath = (filename, ext = 'txt') => path
+  .join(__dirname, '..', '__fixtures__', `${filename}.${ext}`);
 
-const getPath = (inputStructure, format, fixtureType) => {
+const getPath = (format, fixtureType) => {
   if (fixtureType === 'result') {
-    return getFixturePath(inputStructure, fixtureType + _.capitalize(format));
+    return getFixturePath(fixtureType + _.capitalize(format));
   }
-  return getFixturePath(inputStructure, fixtureType, format);
+  return getFixturePath(fixtureType, format);
 };
 
 test.each(tests)(
-  'buildDiff with %s %s files and with %s output',
-  (inputStructure, inputFormat, outputFormat) => {
-    const filepathBefore = getPath(inputStructure, inputFormat, 'before');
-    const filepathAfter = getPath(inputStructure, inputFormat, 'after');
-    const filepathResult = getPath(inputStructure, outputFormat, 'result');
+  'buildDiff read %s files and generate %s format output',
+  (inputFormat, outputFormat) => {
+    const filepathBefore = getPath(inputFormat, 'before');
+    const filepathAfter = getPath(inputFormat, 'after');
+    const filepathResult = getPath(outputFormat, 'result');
 
     const diff = buildDiff(filepathBefore, filepathAfter, outputFormat);
     const result = fs.readFileSync(filepathResult, 'utf8');
