@@ -4,7 +4,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import _ from 'lodash';
-import buildDiff from '../src/index.js';
+import buildDiff from '../index.js';
 
 // Create equivalents of __filename and __dirname
 // https://nodejs.org/api/esm.html#esm_no_require_exports_module_exports_filename_dirname
