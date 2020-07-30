@@ -1,5 +1,6 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import convert from '../convert.js';
 
 const json = JSON.stringify;
 
@@ -9,8 +10,6 @@ const formaters = {
   json,
 };
 
-export default (diff, type) => {
-  const format = formaters[type];
+const format = (data, type) => convert(data, type, formaters);
 
-  return format(diff);
-};
+export default format;
