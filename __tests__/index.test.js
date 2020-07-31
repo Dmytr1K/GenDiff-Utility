@@ -11,30 +11,29 @@ import { readFile } from '../src/utils.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getTestsSet = (items1, items2) => items1.flatMap((item1) => items2
-  .map((item2) => ([item1, item2])));
-
 const getFixturePath = (filename, ext) => path
   .join(__dirname, '..', '__fixtures__', `${filename}.${ext}`);
 
-const getExpectedResultData = (outputFormatterType) => {
+const getExpectedResult = (outputFormatterType) => {
   const expectedResultFileName = `result${_.capitalize(outputFormatterType)}`;
-
   return readFile(getFixturePath(expectedResultFileName, 'txt'));
 };
 
 const inputDataTypes = ['json', 'yml', 'ini'];
 const outputFormatterTypes = ['stylish', 'plain', 'json'];
-const testsSet = getTestsSet(inputDataTypes, outputFormatterTypes);
+const getTestsSet = (types1, types2) => types1
+  .flatMap((type1) => types2
+    .map((type2) => ([type1, type2])));
 
-test.each(testsSet)(
+test.each(getTestsSet(inputDataTypes, outputFormatterTypes))(
   'genDiff read %s files and generate %s format output',
   (inputDataType, outputFormatterType) => {
     const filepathBefore = getFixturePath('before', inputDataType);
     const filepathAfter = getFixturePath('after', inputDataType);
-    const expectedResult = getExpectedResultData(outputFormatterType);
-
     const currentResult = genDiff(filepathBefore, filepathAfter, outputFormatterType);
+
+    const expectedResult = getExpectedResult(outputFormatterType);
+
     expect(currentResult).toEqual(expectedResult);
   },
 );
