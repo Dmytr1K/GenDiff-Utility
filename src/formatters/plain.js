@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getDiffType } from '../utils.js';
+import { compareValues } from '../utils.js';
 
 const getFullName = (path, name) => `${path ? `${path}.` : ''}${name}`;
 
@@ -24,14 +24,14 @@ const format = (diff) => {
 
     const [valueBefore, valueAfter] = valuesPair;
 
-    const diffType = getDiffType(valuesPair);
-    if (diffType === 'changed') {
+    const diffType = compareValues(valuesPair);
+    if (diffType === 'updated') {
       return `Property '${fullName}' was updated. From ${getParsedValue(valueBefore)} to ${getParsedValue(valueAfter)}`;
     }
     if (diffType === 'added') {
       return `Property '${fullName}' was added with value: ${getParsedValue(valueAfter)}`;
     }
-    if (diffType === 'deleted') {
+    if (diffType === 'removed') {
       return `Property '${fullName}' was removed`;
     }
     return '';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getDiffType } from '../utils.js';
+import { compareValues } from '../utils.js';
 
 const getIndent = (depth, diffType = 'unchanged') => {
   const filler = ' ';
@@ -8,7 +8,7 @@ const getIndent = (depth, diffType = 'unchanged') => {
   const prefixes = {
     unchanged: filler,
     added: '+',
-    deleted: '-',
+    removed: '-',
   };
   const prefix = prefixes[diffType];
   return filler.repeat(indentSize * depth + prefixIndentSize) + prefix + filler;
@@ -25,7 +25,7 @@ const stringify = (data, depth) => {
 const getString = (diffType, depth, name, valuesPair) => {
   const indent = getIndent(depth, diffType);
   const [valueBefore, valueAfter] = valuesPair;
-  const value = diffType === 'deleted' ? valueBefore : valueAfter;
+  const value = diffType === 'removed' ? valueBefore : valueAfter;
   return `${indent}${name}: ${stringify(value, depth + 1)}`;
 };
 
@@ -38,9 +38,9 @@ const format = (diff) => {
       return `${indent}${name}: {\n${objectsDifference.flatMap((item) => iter(item, depth + 1)).join('\n')}\n${indent}}`;
     }
 
-    const diffType = getDiffType(valuesPair);
-    if (diffType === 'changed') {
-      const stringBefore = getString('deleted', depth, name, valuesPair);
+    const diffType = compareValues(valuesPair);
+    if (diffType === 'updated') {
+      const stringBefore = getString('removed', depth, name, valuesPair);
       const stringAfter = getString('added', depth, name, valuesPair);
       return [stringBefore, stringAfter];
     }

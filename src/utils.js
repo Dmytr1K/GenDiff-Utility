@@ -7,16 +7,16 @@ export const getFileExtension = (filePath) => path.extname(filePath).substring(1
 
 export const convert = (data, type, converters) => converters[type](data);
 
-export const getDiffType = (valuesPair) => {
+export const compareValues = (valuesPair) => {
   const [valueBefore, valueAfter] = valuesPair;
   if (valueBefore === undefined) {
     return 'added';
   }
   if (valueAfter === undefined) {
-    return 'deleted';
+    return 'removed';
   }
   if (valueBefore !== valueAfter) {
-    return 'changed';
+    return 'updated';
   }
   return 'unchanged';
 };
