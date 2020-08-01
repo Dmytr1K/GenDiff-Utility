@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { compareValues } from '../utils.js';
 
 const getIndent = (depth, diffType = 'unchanged') => {
   const filler = ' ';
@@ -22,33 +21,35 @@ const stringify = (data, depth) => {
   return `{\n${openingIndent}${key}: ${value}\n${closingIndent}}`;
 };
 
-const getString = (diffType, depth, name, valuesPair) => {
-  const indent = getIndent(depth, diffType);
-  const [valueBefore, valueAfter] = valuesPair;
-  const value = diffType === 'removed' ? valueBefore : valueAfter;
+const getString = (type, depth, name, value) => {
+  const indent = getIndent(depth, type);
   return `${indent}${name}: ${stringify(value, depth + 1)}`;
 };
 
-const format = (diff) => {
+const getFormattedStrings = (handler, tree, depth) => tree.flatMap((node) => handler(node, depth));
+const getJoinedString = (strings) => `\n${strings.join('\n')}\n`;
+
+const format = (diffTree) => {
   const iter = (node, depth) => {
-    const { name, objectsDifference, valuesPair } = node;
-
-    if (objectsDifference) {
+    const { name, type } = node;
+    if (type === 'diffTree') {
+      const { children } = node;
+      const joinedString = getJoinedString(getFormattedStrings(iter, children, depth + 1));
       const indent = getIndent(depth);
-      return `${indent}${name}: {\n${objectsDifference.flatMap((item) => iter(item, depth + 1)).join('\n')}\n${indent}}`;
+      return `${indent}${name}: {${joinedString}${indent}}`;
     }
-
-    const diffType = compareValues(valuesPair);
-    if (diffType === 'updated') {
-      const stringBefore = getString('removed', depth, name, valuesPair);
-      const stringAfter = getString('added', depth, name, valuesPair);
+    if (type === 'updated') {
+      const { valueBefore, valueAfter } = node;
+      const stringBefore = getString('removed', depth, name, valueBefore);
+      const stringAfter = getString('added', depth, name, valueAfter);
       return [stringBefore, stringAfter];
     }
-
-    return getString(diffType, depth, name, valuesPair);
+    const { value } = node;
+    return getString(type, depth, name, value);
   };
 
-  return `{\n${diff.flatMap((node) => iter(node, 0)).join('\n')}\n}`;
+  const joinedResultStrings = getJoinedString(getFormattedStrings(iter, diffTree, 0));
+  return `{${joinedResultStrings}}`;
 };
 
 export default format;
