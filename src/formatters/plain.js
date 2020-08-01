@@ -1,43 +1,40 @@
 import _ from 'lodash';
-import { compareValues } from '../utils.js';
 
-const getFullName = (path, name) => `${path ? `${path}.` : ''}${name}`;
+const getPropertyName = (names) => names.join('.');
 
 const getParsedValue = (value) => {
-  if (_.isObject(value)) {
-    return '[complex value]';
-  }
   if (_.isString(value)) {
     return `'${value}'`;
+  }
+  if (_.isObject(value)) {
+    return '[complex value]';
   }
   return value;
 };
 
-const format = (diff) => {
-  const iter = (node, path) => {
-    const { name, objectsDifference, valuesPair } = node;
-    const fullName = getFullName(path, name);
-
-    if (objectsDifference) {
-      return objectsDifference.flatMap((item) => iter(item, fullName));
+const format = (diffTree) => {
+  const iter = (node, namesChain) => {
+    const { name, type } = node;
+    const propertyName = getPropertyName([...namesChain, name]);
+    if (type === 'diffTree') {
+      const { children } = node;
+      return children.flatMap((child) => iter(child, [...namesChain, name]));
     }
-
-    const [valueBefore, valueAfter] = valuesPair;
-
-    const diffType = compareValues(valuesPair);
-    if (diffType === 'updated') {
-      return `Property '${fullName}' was updated. From ${getParsedValue(valueBefore)} to ${getParsedValue(valueAfter)}`;
+    if (type === 'removed') {
+      return `Property '${propertyName}' was removed`;
     }
-    if (diffType === 'added') {
-      return `Property '${fullName}' was added with value: ${getParsedValue(valueAfter)}`;
+    if (type === 'added') {
+      const { value } = node;
+      return `Property '${propertyName}' was added with value: ${getParsedValue(value)}`;
     }
-    if (diffType === 'removed') {
-      return `Property '${fullName}' was removed`;
+    if (type === 'updated') {
+      const { valueBefore, valueAfter } = node;
+      return `Property '${propertyName}' was updated. From ${getParsedValue(valueBefore)} to ${getParsedValue(valueAfter)}`;
     }
     return '';
   };
 
-  return diff.flatMap((node) => iter(node, '')).filter(String).join('\n');
+  return diffTree.flatMap((node) => iter(node, [])).filter(String).join('\n');
 };
 
 export default format;
