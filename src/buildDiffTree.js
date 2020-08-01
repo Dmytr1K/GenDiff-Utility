@@ -7,7 +7,7 @@ const getDiffType = (valueBefore, valueAfter) => {
   return 'unchanged';
 };
 
-const buildDiff = (dataBefore, dataAfter) => {
+const buildDiffTree = (dataBefore, dataAfter) => {
   const unsortedKeys = _.union(Object.keys(dataBefore), Object.keys(dataAfter));
   const sortedKeys = _.sortBy(unsortedKeys);
 
@@ -19,7 +19,7 @@ const buildDiff = (dataBefore, dataAfter) => {
     const valueAfter = dataAfter[key];
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
       entry.type = 'diffTree';
-      entry.children = buildDiff(valueBefore, valueAfter);
+      entry.children = buildDiffTree(valueBefore, valueAfter);
     } else {
       const diffType = getDiffType(valueBefore, valueAfter);
       entry.type = diffType;
@@ -37,4 +37,4 @@ const buildDiff = (dataBefore, dataAfter) => {
   return sortedKeys.map(addEntry);
 };
 
-export default buildDiff;
+export default buildDiffTree;

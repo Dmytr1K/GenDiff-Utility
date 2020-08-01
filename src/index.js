@@ -1,5 +1,5 @@
 import parse from './parsers.js';
-import buildDiff from './buildDiff.js';
+import buildDiffTree from './buildDiffTree.js';
 import format from './formatters/index.js';
 import { readFile, getFileExtension } from './utils.js';
 
@@ -12,7 +12,7 @@ export default (filePathBefore, filePathAfter, outputFormatterType = 'stylish') 
   const dataParserTypeAfter = getFileExtension(filePathAfter);
   const parsedDataAfter = parse(rawDataAfter, dataParserTypeAfter);
 
-  const diffTree = buildDiff(parsedDataBefore, parsedDataAfter);
+  const diffTree = buildDiffTree(parsedDataBefore, parsedDataAfter);
 
   return format(diffTree, outputFormatterType);
 };
