@@ -16,13 +16,13 @@
 
 ### Используя npm
 
-- Установить:
+- Установка:
 
 ```sh
 npm install dmytr1k-gendiff
 ```
 
-- Удалить:
+- Удаление:
 
 ```sh
 npm uninstall dmytr1k-gendiff
@@ -30,7 +30,7 @@ npm uninstall dmytr1k-gendiff
 
 ### Используя git
 
-- Установить:
+- Установка:
 
 ```sh
 git clone git@github.com:Dmytr1K/frontend-project-lvl2.git
@@ -39,7 +39,7 @@ make install
 make link
 ```
 
-- Удалить:
+- Удаление:
 
 ```sh
 cd frontend-project-lvl2
@@ -48,7 +48,7 @@ cd ..
 rm -R frontend-project-lvl2
 ```
 
-## Встроенная справка
+## Использование встроенной справки
 
 - Получить подсказку по работе с программой:
 
@@ -68,38 +68,38 @@ gendiff -V
 
 ## Работа с программой
 
-### Сравнение плоских файлов
+### Сравнение плоских файлов (содержащих только пары ключ-значение)
 
-#### Flat JSON with stylish output format
+#### Сравнение плоских файлов JSON со стильным (по умолчанию) форматом вывода результата
 
 [![asciicast](https://asciinema.org/a/349980.svg)](https://asciinema.org/a/349980)
 
-#### Flat JSON with plain output format
+#### Сравнение плоских файлов JSON с плоским форматом вывода результата
 
 [![asciicast](https://asciinema.org/a/349978.svg)](https://asciinema.org/a/349978)
 
-#### Flat JSON with JSON output format
+#### Сравнение плоских файлов JSON с выводом результата в виде строки JSON
 
 [![asciicast](https://asciinema.org/a/349979.svg)](https://asciinema.org/a/349979)
 
-#### Flat YAML и INI
+#### Плоские файлы форматов YAML и INI
 
 Результаты сравнения аналогичны результатам сравнения файлов формата JSON
 
 ### Сравнение файлов, имеющих вложенные структуры
 
-#### Nested JSON with stylish output format
+#### Сравнение файлов JSON, имеющих вложенные структуры, со стильным (по умолчанию) форматом вывода результата
 
 [![asciicast](https://asciinema.org/a/349981.svg)](https://asciinema.org/a/349981)
 
-#### Nested JSON with plain output format
+#### Сравнение файлов JSON, имеющих вложенные структуры, с плоским форматом вывода результата
 
 [![asciicast](https://asciinema.org/a/349982.svg)](https://asciinema.org/a/349982)
 
-#### Nested JSON with JSON output format
+#### Сравнение файлов JSON, имеющих вложенные структуры, с выводом результата в виде строки JSON
 
 [![asciicast](https://asciinema.org/a/349983.svg)](https://asciinema.org/a/349983)
 
-#### Nested YAML и INI
+#### Файлы форматов YAML и INI, имеющие вложенные структуры
 
 Результаты сравнения аналогичны результатам сравнения файлов формата JSON
