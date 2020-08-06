@@ -1,6 +1,5 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import { convert } from './utils.js';
 
 const parsers = {
   json: JSON.parse,
@@ -8,6 +7,6 @@ const parsers = {
   ini: ini.parse,
 };
 
-const parse = (data, type) => convert(data, type, parsers);
+const parse = (data, type) => parsers[type](data);
 
 export default parse;
