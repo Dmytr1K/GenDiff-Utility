@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import _ from 'lodash';
 import genDiff from '../index.js';
-import { readFile } from '../src/utils.js';
 
 // Create equivalents of __filename and __dirname
 // https://nodejs.org/api/esm.html#esm_no_require_exports_module_exports_filename_dirname
@@ -16,7 +16,9 @@ const getFixturePath = (filename, ext) => path
 
 const getExpectedResult = (outputFormatterType) => {
   const expectedResultFileName = `result${_.capitalize(outputFormatterType)}`;
-  return readFile(getFixturePath(expectedResultFileName, 'txt'));
+  const expectedResultFilePath = getFixturePath(expectedResultFileName, 'txt');
+
+  return fs.readFileSync(expectedResultFilePath, 'utf-8');
 };
 
 const inputDataTypes = ['json', 'yml', 'ini'];
