@@ -16,7 +16,7 @@ const format = (diffTree) => {
   const iter = (node, namesChain) => {
     const { name, type } = node;
     const propertyName = getPropertyName([...namesChain, name]);
-    if (type === 'diffTree') {
+    if (type === 'nested') {
       const { children } = node;
       return children.flatMap((child) => iter(child, [...namesChain, name]));
     }

@@ -32,7 +32,7 @@ const getJoinedString = (strings) => `\n${strings.join('\n')}\n`;
 const format = (diffTree) => {
   const iter = (node, depth) => {
     const { name, type } = node;
-    if (type === 'diffTree') {
+    if (type === 'nested') {
       const { children } = node;
       const joinedString = getJoinedString(getFormattedStrings(iter, children, depth + 1));
       const indent = getIndent(depth);
