@@ -7,17 +7,37 @@ const buildDiffTree = (dataBefore, dataAfter) => {
     const valueBefore = dataBefore[name];
     const valueAfter = dataAfter[name];
 
-    if (valueBefore === valueAfter) return { name, type: 'unchanged', value: valueAfter };
-    if (valueBefore === undefined) return { name, type: 'added', value: valueAfter };
-    if (valueAfter === undefined) return { name, type: 'removed', value: valueBefore };
-    if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      return {
-        name, type: 'nested', children: buildDiffTree(valueBefore, valueAfter),
-      };
-    }
-    return {
-      name, type: 'updated', valueBefore, valueAfter,
+    const getDiffType = () => {
+      if (_.isObject(valueBefore) && _.isObject(valueAfter)) return 'nested';
+      if (valueBefore === valueAfter) return 'unchanged';
+      if (valueBefore === undefined) return 'added';
+      if (valueAfter === undefined) return 'removed';
+      return 'updated';
     };
+
+    const getEntryParser = () => {
+      const parsers = {
+        unchanged: () => ({ name, type: 'unchanged', value: valueAfter }),
+        added: () => ({ name, type: 'added', value: valueAfter }),
+        removed: () => ({ name, type: 'removed', value: valueBefore }),
+        nested: () => ({
+          name,
+          type: 'nested',
+          children: buildDiffTree(valueBefore, valueAfter),
+        }),
+        updated: () => ({
+          name,
+          type: 'updated',
+          valueBefore,
+          valueAfter,
+        }),
+      };
+
+      return parsers[getDiffType(valueBefore, valueAfter)];
+    };
+
+    const parseEntry = getEntryParser();
+    return parseEntry();
   };
 
   return sortedKeys.map(addEntry);
