@@ -1,40 +1,30 @@
 import _ from 'lodash';
 
-const getPropertyName = (names) => names.join('.');
-
-const getParsedValue = (value) => {
-  if (_.isString(value)) {
-    return `'${value}'`;
-  }
-  if (_.isObject(value)) {
-    return '[complex value]';
-  }
+const parse = (value) => {
+  if (_.isString(value)) return `'${value}'`;
+  if (_.isObject(value)) return '[complex value]';
   return value;
 };
 
-const format = (diffTree) => {
-  const iter = (node, namesChain) => {
+const builders = {
+  unchanged: () => [],
+  removed: (property) => `Property '${property}' was removed`,
+  added: (property, node) => `Property '${property}' was added with value: ${parse(node.value)}`,
+  updated: (property, node) => `Property '${property}' was updated. From ${parse(node.valueBefore)} to ${parse(node.valueAfter)}`,
+  nested: (property, node, getStrings) => getStrings(node.children, property),
+};
+
+const getStrings = (diff, path) => {
+  const callback = (acc, node) => {
     const { name, type } = node;
-    const propertyName = getPropertyName([...namesChain, name]);
-    if (type === 'nested') {
-      const { children } = node;
-      return children.flatMap((child) => iter(child, [...namesChain, name]));
-    }
-    if (type === 'removed') {
-      return `Property '${propertyName}' was removed`;
-    }
-    if (type === 'added') {
-      const { value } = node;
-      return `Property '${propertyName}' was added with value: ${getParsedValue(value)}`;
-    }
-    if (type === 'updated') {
-      const { valueBefore, valueAfter } = node;
-      return `Property '${propertyName}' was updated. From ${getParsedValue(valueBefore)} to ${getParsedValue(valueAfter)}`;
-    }
-    return '';
+    const property = path ? `${path}.${name}` : name;
+
+    return _.flatten([...acc, builders[type](property, node, getStrings)]);
   };
 
-  return diffTree.flatMap((node) => iter(node, [])).filter(String).join('\n');
+  return diff.reduce(callback, []);
 };
+
+const format = (diffTree) => getStrings(diffTree).join('\n');
 
 export default format;
