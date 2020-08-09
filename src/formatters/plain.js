@@ -1,9 +1,14 @@
 import _ from 'lodash';
 
 const parse = (value) => {
-  if (_.isString(value)) return `'${value}'`;
-  if (_.isObject(value)) return '[complex value]';
-  return value;
+  const parsers = {
+    boolean: (boolean) => boolean,
+    number: (number) => number,
+    string: (string) => `'${string}'`,
+    object: () => '[complex value]',
+  };
+
+  return parsers[typeof value](value);
 };
 
 const builders = {
