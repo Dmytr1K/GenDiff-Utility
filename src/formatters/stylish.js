@@ -1,55 +1,61 @@
 import _ from 'lodash';
 
-const getIndent = (depth, diffType = 'unchanged') => {
-  const filler = ' ';
-  const indentSize = 4;
-  const prefixIndentSize = 2;
-  const prefixes = {
-    unchanged: filler,
-    added: '+',
-    removed: '-',
-  };
-  const prefix = prefixes[diffType];
-  return filler.repeat(indentSize * depth + prefixIndentSize) + prefix + filler;
+const indentSize = 4;
+const prefixIndentSize = 2;
+const filler = ' ';
+const separator = ':';
+const frameChars = {
+  initial: '{',
+  final: '}',
+};
+const prefixChars = {
+  blank: ' ',
+  plus: '+',
+  minus: '-',
 };
 
-const stringify = (data, depth) => {
+const getIndent = (depth) => filler.repeat(indentSize * depth);
+const getPrefix = (type) => filler.repeat(prefixIndentSize) + prefixChars[type] + filler;
+const frame = (string, depth) => [frameChars.initial, string, getIndent(depth) + frameChars.final];
+const stringify = (name, value, depth, type) => getIndent(depth) + getPrefix(type)
+  + name + separator + filler + value;
+
+const render = (data, depth) => {
   if (!_.isObject(data)) return data;
-  const openingIndent = getIndent(depth);
-  const closingIndent = getIndent(depth - 1);
-  const [key, value] = Object.entries(data).flat();
-  return `{\n${openingIndent}${key}: ${value}\n${closingIndent}}`;
+  const newDepth = depth + 1;
+  const entries = Object.entries(data);
+  const strings = entries.map(([key, value]) => [stringify(key, render(value, newDepth), newDepth, 'blank')]);
+  return _.flatten(frame(strings, newDepth)).join('\n');
 };
 
-const getString = (type, depth, name, value) => {
-  const indent = getIndent(depth, type);
-  return `${indent}${name}: ${stringify(value, depth + 1)}`;
+const builders = {
+  unchanged: (node, depth) => {
+    const value = render(node.value, depth);
+    return stringify(node.name, value, depth, 'blank');
+  },
+  removed: (node, depth) => {
+    const value = render(node.value, depth);
+    return stringify(node.name, value, depth, 'minus');
+  },
+  added: (node, depth) => {
+    const value = render(node.value, depth);
+    return stringify(node.name, value, depth, 'plus');
+  },
+  updated: (node, depth) => {
+    const valueBefore = render(node.valueBefore, depth);
+    const valueAfter = render(node.valueAfter, depth);
+    return [
+      stringify(node.name, valueBefore, depth, 'minus'),
+      stringify(node.name, valueAfter, depth, 'plus'),
+    ];
+  },
+  nested: (node, depth, format) => stringify(node.name, format(node.children, depth + 1), depth, 'blank'),
 };
 
-const getFormattedStrings = (handler, tree, depth) => tree.flatMap((node) => handler(node, depth));
-const getJoinedString = (strings) => `\n${strings.join('\n')}\n`;
-
-const format = (diffTree) => {
-  const iter = (node, depth) => {
-    const { name, type } = node;
-    if (type === 'nested') {
-      const { children } = node;
-      const joinedString = getJoinedString(getFormattedStrings(iter, children, depth + 1));
-      const indent = getIndent(depth);
-      return `${indent}${name}: {${joinedString}${indent}}`;
-    }
-    if (type === 'updated') {
-      const { valueBefore, valueAfter } = node;
-      const stringBefore = getString('removed', depth, name, valueBefore);
-      const stringAfter = getString('added', depth, name, valueAfter);
-      return [stringBefore, stringAfter];
-    }
-    const { value } = node;
-    return getString(type, depth, name, value);
-  };
-
-  const joinedResultString = getJoinedString(getFormattedStrings(iter, diffTree, 0));
-  return `{${joinedResultString}}`;
+const format = (diffTree, depth = 0) => {
+  const callback = (acc, node) => [...acc, builders[node.type](node, depth, format)];
+  const strings = diffTree.reduce(callback, []);
+  return _.flattenDeep(frame(strings, depth)).join('\n');
 };
 
 export default format;
