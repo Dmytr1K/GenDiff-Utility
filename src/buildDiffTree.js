@@ -1,7 +1,10 @@
 import _ from 'lodash';
 
 const buildDiffTree = (dataBefore, dataAfter) => {
-  const sortedKeys = _.sortBy(_.union(Object.keys(dataBefore), Object.keys(dataAfter)));
+  const keysBefore = Object.keys(dataBefore);
+  const keysAfter = Object.keys(dataAfter);
+  const unsortedKeys = _.union(keysBefore, keysAfter);
+  const sortedKeys = _.sortBy(unsortedKeys);
 
   const addEntry = (name) => {
     const valueBefore = dataBefore[name];
