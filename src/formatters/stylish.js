@@ -53,8 +53,7 @@ const builders = {
 };
 
 const format = (diffTree, depth = 0) => {
-  const callback = (acc, node) => [...acc, builders[node.type](node, depth, format)];
-  const strings = diffTree.reduce(callback, []);
+  const strings = diffTree.map((node) => builders[node.type](node, depth, format));
   return _.flattenDeep(frame(strings, depth)).join('\n');
 };
 
