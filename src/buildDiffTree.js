@@ -7,19 +7,39 @@ const buildDiffTree = (dataBefore, dataAfter) => {
   const sortedKeys = _.sortBy(unsortedKeys);
 
   const addEntry = (name) => {
-    const valueBefore = dataBefore[name];
-    const valueAfter = dataAfter[name];
-
-    if (valueBefore === valueAfter) return { name, type: 'unchanged', value: valueAfter };
-    if (valueBefore === undefined) return { name, type: 'added', value: valueAfter };
-    if (valueAfter === undefined) return { name, type: 'removed', value: valueBefore };
-    if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
+    if (!_.has(dataBefore, name)) {
       return {
-        name, type: 'nested', children: buildDiffTree(valueBefore, valueAfter),
+        name,
+        type: 'added',
+        value: dataAfter[name],
+      };
+    }
+    if (!_.has(dataAfter, name)) {
+      return {
+        name,
+        type: 'removed',
+        value: dataBefore[name],
+      };
+    }
+    if (_.isObject(dataBefore[name]) && _.isObject(dataAfter[name])) {
+      return {
+        name,
+        type: 'nested',
+        children: buildDiffTree(dataBefore[name], dataAfter[name]),
+      };
+    }
+    if (dataBefore[name] === dataAfter[name]) {
+      return {
+        name,
+        type: 'unchanged',
+        value: dataAfter[name],
       };
     }
     return {
-      name, type: 'updated', valueBefore, valueAfter,
+      name,
+      type: 'updated',
+      valueBefore: dataBefore[name],
+      valueAfter: dataAfter[name],
     };
   };
 
