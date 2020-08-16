@@ -37,7 +37,7 @@ const buildDiffTree = (dataBefore, dataAfter) => {
     }
     return {
       name: key,
-      type: 'updated',
+      type: 'changed',
       valueBefore: dataBefore[key],
       valueAfter: dataAfter[key],
     };

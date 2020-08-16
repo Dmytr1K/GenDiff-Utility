@@ -41,7 +41,7 @@ const builders = {
     const value = render(node.value, depth);
     return stringify(node.name, value, depth, 'plus');
   },
-  updated: (node, depth) => {
+  changed: (node, depth) => {
     const valueBefore = render(node.valueBefore, depth);
     const valueAfter = render(node.valueAfter, depth);
     return [
