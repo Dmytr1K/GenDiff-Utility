@@ -1,19 +1,19 @@
-const parse = (value) => {
-  const parsers = {
-    boolean: (boolean) => boolean,
-    number: (number) => number,
-    string: (string) => `'${string}'`,
+const stringify = (value) => {
+  const converters = {
     object: () => '[complex value]',
+    string: (data) => `'${data}'`,
+    default: (data) => data,
   };
 
-  return parsers[typeof value](value);
+  const convert = converters[typeof value] || converters.default;
+  return convert(value);
 };
 
 const builders = {
   unchanged: () => [],
   removed: (property) => `Property '${property}' was removed`,
-  added: (property, node) => `Property '${property}' was added with value: ${parse(node.value)}`,
-  changed: (property, node) => `Property '${property}' was updated. From ${parse(node.valueBefore)} to ${parse(node.valueAfter)}`,
+  added: (property, node) => `Property '${property}' was added with value: ${stringify(node.value)}`,
+  changed: (property, node) => `Property '${property}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
   nested: (property, node, innerFormat) => innerFormat(node.children, property),
 };
 
