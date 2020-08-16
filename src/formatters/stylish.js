@@ -16,7 +16,6 @@ const prefixChars = {
 
 const getIndent = (depth) => filler.repeat(indentSize * depth);
 const getPrefix = (type) => filler.repeat(prefixIndentSize) + prefixChars[type] + filler;
-const frame = (string, depth) => [frameChars.initial, string, getIndent(depth) + frameChars.final];
 const stringify = (name, value, depth, type) => getIndent(depth) + getPrefix(type)
   + name + separator + filler + value;
 
@@ -25,7 +24,8 @@ const render = (data, depth) => {
   const newDepth = depth + 1;
   const entries = Object.entries(data);
   const strings = entries.map(([key, value]) => [stringify(key, render(value, newDepth), newDepth, 'blank')]);
-  return _.flatten(frame(strings, newDepth)).join('\n');
+  const framedStrigs = [frameChars.initial, strings, getIndent(newDepth) + frameChars.final];
+  return _.flatten(framedStrigs).join('\n');
 };
 
 const builders = {
@@ -54,7 +54,8 @@ const builders = {
 
 const format = (diffTree, depth = 0) => {
   const strings = diffTree.map((node) => builders[node.type](node, depth, format));
-  return _.flattenDeep(frame(strings, depth)).join('\n');
+  const framedStrigs = [frameChars.initial, strings, getIndent(depth) + frameChars.final];
+  return _.flattenDeep(framedStrigs).join('\n');
 };
 
 export default format;
