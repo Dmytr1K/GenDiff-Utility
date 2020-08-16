@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const parse = (value) => {
   const parsers = {
     boolean: (boolean) => boolean,
@@ -16,20 +14,22 @@ const builders = {
   removed: (property) => `Property '${property}' was removed`,
   added: (property, node) => `Property '${property}' was added with value: ${parse(node.value)}`,
   changed: (property, node) => `Property '${property}' was updated. From ${parse(node.valueBefore)} to ${parse(node.valueAfter)}`,
-  nested: (property, node, getStrings) => getStrings(node.children, property),
+  nested: (property, node, innerFormat) => innerFormat(node.children, property),
 };
 
-const getStrings = (diff, path) => {
-  const callback = (acc, node) => {
-    const { name, type } = node;
-    const property = path ? `${path}.${name}` : name;
+const format = (diffTree) => {
+  const innerFormat = (diff, path) => {
+    const callback = (node) => {
+      const { name, type } = node;
+      const property = path ? `${path}.${name}` : name;
 
-    return _.flatten([...acc, builders[type](property, node, getStrings)]);
+      return builders[type](property, node, innerFormat);
+    };
+
+    return diff.flatMap(callback).join('\n');
   };
 
-  return diff.reduce(callback, []);
+  return innerFormat(diffTree, '');
 };
-
-const format = (diffTree) => getStrings(diffTree).join('\n');
 
 export default format;
