@@ -23,9 +23,9 @@ const render = (data, depth) => {
   if (!_.isObject(data)) return data;
   const newDepth = depth + 1;
   const entries = Object.entries(data);
-  const strings = entries.map(([key, value]) => [stringify(key, render(value, newDepth), newDepth, 'blank')]);
-  const framedStrigs = [frameChars.initial, strings, getIndent(newDepth) + frameChars.final];
-  return _.flatten(framedStrigs).join('\n');
+  const strings = entries.flatMap(([key, value]) => [stringify(key, render(value, newDepth), newDepth, 'blank')]);
+  const framedStrigs = [frameChars.initial, ...strings, getIndent(newDepth) + frameChars.final];
+  return framedStrigs.join('\n');
 };
 
 const builders = {
@@ -53,9 +53,9 @@ const builders = {
 };
 
 const format = (diffTree, depth = 0) => {
-  const strings = diffTree.map((node) => builders[node.type](node, depth, format));
-  const framedStrigs = [frameChars.initial, strings, getIndent(depth) + frameChars.final];
-  return _.flattenDeep(framedStrigs).join('\n');
+  const strings = diffTree.flatMap((node) => builders[node.type](node, depth, format));
+  const framedStrigs = [frameChars.initial, ...strings, getIndent(depth) + frameChars.final];
+  return framedStrigs.join('\n');
 };
 
 export default format;
