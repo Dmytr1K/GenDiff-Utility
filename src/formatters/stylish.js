@@ -28,34 +28,38 @@ const render = (data, depth) => {
   return framedStrigs.join('\n');
 };
 
-const builders = {
-  unchanged: (node, depth) => {
-    const value = render(node.value, depth);
-    return stringify(node.name, value, depth, 'blank');
-  },
-  removed: (node, depth) => {
-    const value = render(node.value, depth);
-    return stringify(node.name, value, depth, 'minus');
-  },
-  added: (node, depth) => {
-    const value = render(node.value, depth);
-    return stringify(node.name, value, depth, 'plus');
-  },
-  changed: (node, depth) => {
-    const valueBefore = render(node.valueBefore, depth);
-    const valueAfter = render(node.valueAfter, depth);
-    return [
-      stringify(node.name, valueBefore, depth, 'minus'),
-      stringify(node.name, valueAfter, depth, 'plus'),
-    ];
-  },
-  nested: (node, depth, format) => stringify(node.name, format(node.children, depth + 1), depth, 'blank'),
-};
+const format = (diffTree) => {
+  const builders = {
+    unchanged: (node, depth) => {
+      const value = render(node.value, depth);
+      return stringify(node.name, value, depth, 'blank');
+    },
+    removed: (node, depth) => {
+      const value = render(node.value, depth);
+      return stringify(node.name, value, depth, 'minus');
+    },
+    added: (node, depth) => {
+      const value = render(node.value, depth);
+      return stringify(node.name, value, depth, 'plus');
+    },
+    changed: (node, depth) => {
+      const valueBefore = render(node.valueBefore, depth);
+      const valueAfter = render(node.valueAfter, depth);
+      return [
+        stringify(node.name, valueBefore, depth, 'minus'),
+        stringify(node.name, valueAfter, depth, 'plus'),
+      ];
+    },
+    nested: (node, depth, innerFormat) => stringify(node.name, innerFormat(node.children, depth + 1), depth, 'blank'),
+  };
 
-const format = (diffTree, depth = 0) => {
-  const strings = diffTree.flatMap((node) => builders[node.type](node, depth, format));
-  const framedStrigs = [frameChars.initial, ...strings, getIndent(depth) + frameChars.final];
-  return framedStrigs.join('\n');
+  const innerFormat = (innerDiffTree, depth) => {
+    const strings = innerDiffTree.flatMap((node) => builders[node.type](node, depth, innerFormat));
+    const framedStrigs = [frameChars.initial, ...strings, getIndent(depth) + frameChars.final];
+    return framedStrigs.join('\n');
+  };
+
+  return innerFormat(diffTree, 0);
 };
 
 export default format;
