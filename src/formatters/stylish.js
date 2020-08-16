@@ -29,24 +29,24 @@ const stringify = (name, value, depth, type) => getIndent(depth) + getPrefix(typ
   + name + separator + filler + render(value, depth, stringify);
 
 const format = (diffTree) => {
-  const builders = new Map()
-    .set('unchanged', (node, depth) => stringify(node.name, node.value, depth, 'blank'))
-    .set('removed', (node, depth) => stringify(node.name, node.value, depth, 'minus'))
-    .set('added', (node, depth) => stringify(node.name, node.value, depth, 'plus'))
-    .set('changed', (node, depth) => [
+  const builders = {
+    unchanged: (node, depth) => stringify(node.name, node.value, depth, 'blank'),
+    removed: (node, depth) => stringify(node.name, node.value, depth, 'minus'),
+    added: (node, depth) => stringify(node.name, node.value, depth, 'plus'),
+    changed: (node, depth) => [
       stringify(node.name, node.valueBefore, depth, 'minus'),
       stringify(node.name, node.valueAfter, depth, 'plus'),
-    ])
-    .set('nested', (node, depth, innerFormat) => stringify(
+    ],
+    nested: (node, depth, innerFormat) => stringify(
       node.name,
       innerFormat(node.children, depth + 1),
       depth,
       'blank',
-    ));
+    ),
+  };
 
   const innerFormat = (innerDiffTree, depth) => {
-    const strings = innerDiffTree
-      .flatMap((node) => builders.get(node.type)(node, depth, innerFormat));
+    const strings = innerDiffTree.flatMap((node) => builders[node.type](node, depth, innerFormat));
     const framedStrigs = [frameChars.initial, ...strings, getIndent(depth) + frameChars.final];
     return framedStrigs.join('\n');
   };
