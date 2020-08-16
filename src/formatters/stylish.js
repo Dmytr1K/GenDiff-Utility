@@ -29,7 +29,7 @@ const stringify = (name, value, depth, type) => getIndent(depth) + getPrefix(typ
   + name + separator + filler + render(value, depth, stringify);
 
 const format = (diffTree) => {
-  const builders = {
+  const mapping = {
     unchanged: (node, depth) => stringify(node.name, node.value, depth, 'blank'),
     removed: (node, depth) => stringify(node.name, node.value, depth, 'minus'),
     added: (node, depth) => stringify(node.name, node.value, depth, 'plus'),
@@ -46,7 +46,8 @@ const format = (diffTree) => {
   };
 
   const innerFormat = (innerDiffTree, depth) => {
-    const strings = innerDiffTree.flatMap((node) => builders[node.type](node, depth, innerFormat));
+    const strings = innerDiffTree
+      .flatMap((node) => mapping[node.type](node, depth, innerFormat));
     const framedStrigs = [frameChars.initial, ...strings, getIndent(depth) + frameChars.final];
     return framedStrigs.join('\n');
   };
