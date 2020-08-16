@@ -6,40 +6,40 @@ const buildDiffTree = (dataBefore, dataAfter) => {
   const unsortedKeys = _.union(keysBefore, keysAfter);
   const sortedKeys = _.sortBy(unsortedKeys);
 
-  const addEntry = (name) => {
-    if (!_.has(dataBefore, name)) {
+  const addEntry = (key) => {
+    if (!_.has(dataBefore, key)) {
       return {
-        name,
+        name: key,
         type: 'added',
-        value: dataAfter[name],
+        value: dataAfter[key],
       };
     }
-    if (!_.has(dataAfter, name)) {
+    if (!_.has(dataAfter, key)) {
       return {
-        name,
+        name: key,
         type: 'removed',
-        value: dataBefore[name],
+        value: dataBefore[key],
       };
     }
-    if (_.isObject(dataBefore[name]) && _.isObject(dataAfter[name])) {
+    if (_.isObject(dataBefore[key]) && _.isObject(dataAfter[key])) {
       return {
-        name,
+        name: key,
         type: 'nested',
-        children: buildDiffTree(dataBefore[name], dataAfter[name]),
+        children: buildDiffTree(dataBefore[key], dataAfter[key]),
       };
     }
-    if (dataBefore[name] === dataAfter[name]) {
+    if (dataBefore[key] === dataAfter[key]) {
       return {
-        name,
+        name: key,
         type: 'unchanged',
-        value: dataAfter[name],
+        value: dataAfter[key],
       };
     }
     return {
-      name,
+      name: key,
       type: 'updated',
-      valueBefore: dataBefore[name],
-      valueAfter: dataAfter[name],
+      valueBefore: dataBefore[key],
+      valueAfter: dataAfter[key],
     };
   };
 
