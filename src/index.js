@@ -12,7 +12,10 @@ const getData = (filePath) => {
 };
 
 export default (filePathBefore, filePathAfter, outputFormatterType = 'stylish') => {
-  const diffTree = buildDiffTree(getData(filePathBefore), getData(filePathAfter));
+  const dataBefore = getData(filePathBefore);
+  const dataAfter = getData(filePathAfter);
+  const diffTree = buildDiffTree(dataBefore, dataAfter);
+  const formattedDiffTree = format(diffTree, outputFormatterType);
 
-  return format(diffTree, outputFormatterType);
+  return formattedDiffTree;
 };

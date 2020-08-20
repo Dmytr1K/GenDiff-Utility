@@ -1,13 +1,15 @@
+const converters = {
+  object: () => '[complex value]',
+  string: (data) => `'${data}'`,
+  default: (data) => data,
+};
+
 const stringify = (value) => {
-  const converters = {
-    object: () => '[complex value]',
-    string: (data) => `'${data}'`,
-    default: (data) => data,
-  };
   const convert = converters[typeof value] || converters.default;
 
   return convert(value);
 };
+
 const mapping = {
   unchanged: () => [],
   removed: (property) => `Property '${property}' was removed`,
